@@ -1,21 +1,32 @@
 {% extends "base.html" %}
-{% load static %}
+{% load static wagtailcore_tags %}
+
+{% block fiveup_bodyclass %}is-preload{% endblock fiveup_bodyclass %}
 
 {% block body_class %}template-homepage{% endblock %}
 
-{% block extra_css %}
-
-{% comment %}
-Delete the line below if you're just getting started and want to remove the welcome screen!
-{% endcomment %}
-<link rel="stylesheet" href="{% static 'css/welcome_page.css' %}">
-{% endblock extra_css %}
-
 {% block content %}
+		<!-- Sidebar -->
+		<section id="sidebar">
 
-{% comment %}
-Delete the line below if you're just getting started and want to remove the welcome screen!
-{% endcomment %}
-{% include 'home/welcome_page.html' %}
+			<!-- Intro -->
+			<section id="intro">
+				<a href="#" class="logo"><img src="images/logo.jpg" alt="" /></a>
+				<header>
+					<h2>{{ page.banner_title }}</h2>
+					<p>{{ page.body|richtext }}</a></p>
+				</header>
+			</section>
+
+			<!-- About -->
+			<section class="blurb">
+				<h2>About</h2>
+				<p>The Purple Dot is a group of data-wranglin', storytellin' data scientists and developers.</p>
+				<ul class="actions">
+					<li><a href="#" class="button">Learn More</a></li>
+				</ul>
+			</section>
+
+		</section>
 
 {% endblock content %}

@@ -1,0 +1,162 @@
+{% extends 'base.html' %}
+{% load static wagtailcore_tags wagtailimages_tags %}
+
+{% block fiveup_bodyclass %}single is-preload{% endblock fiveup_bodyclass %}
+
+{% block body_class %}template-loguepage{% endblock body_class %}
+
+{% comment %} {% block title %}{{ page.title }} | Notique{% endblock title %} {% endcomment %}
+
+{% block content %}
+
+<!-- Wrapper -->
+<div id="wrapper">
+
+	<!-- Header -->
+	<header id="header">
+		<h1><a href="#">The Purple Dot</a></h1>
+		<nav class="links">
+			<ul>
+				<li><a href="{{ page.get_parent.url }}">Back to List</a></li>
+			</ul>
+		</nav>
+		<nav class="main">
+			<ul>
+				<li class="search">
+					<a class="fa-search" href="#search">Search</a>
+					<form id="search" method="get" action="#">
+						<input type="text" name="query" placeholder="Search" />
+					</form>
+				</li>
+				<li class="menu">
+					<a class="fa-bars" href="#menu">Menu</a>
+				</li>
+			</ul>
+		</nav>
+	</header>
+
+	<!-- Menu -->
+	<section id="menu">
+
+		<!-- Search -->
+		<section>
+			<form class="search" method="get" action="#">
+				<input type="text" name="query" placeholder="Search" />
+			</form>
+		</section>
+
+		<!-- Links -->
+		<section>
+			<ul class="links">
+				<li>
+					<a href="#">
+						<h3>Lorem ipsum</h3>
+						<p>Feugiat tempus veroeros dolor</p>
+					</a>
+				</li>
+				<li>
+					<a href="#">
+						<h3>Dolor sit amet</h3>
+						<p>Sed vitae justo condimentum</p>
+					</a>
+				</li>
+				<li>
+					<a href="#">
+						<h3>Feugiat veroeros</h3>
+						<p>Phasellus sed ultricies mi congue</p>
+					</a>
+				</li>
+				<li>
+					<a href="#">
+						<h3>Etiam sed consequat</h3>
+						<p>Porta lectus amet ultricies</p>
+					</a>
+				</li>
+			</ul>
+		</section>
+
+		<!-- Actions -->
+		<section>
+			<ul class="actions stacked">
+				<li><a href="#" class="button large fit">Log In</a></li>
+			</ul>
+		</section>
+
+	</section>
+
+	<!-- Main -->
+	<div id="main">
+
+		<!-- Post -->
+		<article class="post">
+			<header>
+				<div class="title">
+					<h2><a href="#">{{ page.title }}</a></h2>
+					<p>{{ page.intro }}</p>
+					{% with categories=page.categories.all %}
+						{% if categories %}
+							<ul>
+								{% for category in categories %}
+									<li style="display: inline"><button>{{ category.name }}</button></li>
+								{% endfor %}
+							</ul>
+						{% endif %}
+					{% endwith %}
+				</div>
+				<div class="meta">
+					<time class="published" datetime="{{ page.date|date:'Y-m-d' }}">{{ page.date }}</time>
+					{% with authors=page.logue_authors.all %}
+						{% if authors %}
+							<ul>
+								{% for iter in authors %}
+									{% image iter.author.image fill-100x100 as img %}
+									<li style="display: inline">
+										<a href="{{ iter.author.website }}" class="author">
+										<span class="name">{{ iter.author.name }}</span>
+										<img src="{{ img.url }}" alt="{{ iter.author.name }}" /></a>
+									</li>
+								{% endfor %}
+							</ul>
+						{% endif %}
+					{% endwith %}
+				</div>
+			</header>
+			<span class="image featured">{% image page.header_image original %}</span>
+			
+			{% for block in page.body %}
+				{% if block.block_type == "paragraph" %}
+					<p>{{ block.value|richtext }}</p>
+				{% elif block.block_type == "image" %}
+					<div class="richtext-image full-width">{% include_block block %}</div>
+				{% else %}
+					{% include_block block %}
+				{% endif %}
+			{% endfor %}
+
+			{% comment %} <p>{{ page.body|richtext }}</p> {% endcomment %}
+
+			{% for item in page.gallery_images.all %}
+			<div style="float: left; margin: 10px">
+				{% image item.image fill-320x240 %}
+				<p>{{ item.caption }}</p>
+			</div>
+			{% endfor %}
+
+			<p><a href="{{ page.get_parent.url }}">Return to Logue</a></p>
+
+			<footer>
+				<ul class="stats">
+					{% for tag in page.tags.all %}
+						<li><a href="{% slugurl 'tags' %}?tag={{ tag }}">{{ tag }}</a></li>
+					{% endfor %}
+					<li><a href="#" class="icon solid fa-heart">28</a></li>
+					<li><a href="#" class="icon solid fa-comment">128</a></li>
+				</ul>
+			</footer>
+		</article>
+
+	</div>
+
+</div>
+
+{% endblock content %}

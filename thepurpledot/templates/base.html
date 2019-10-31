@@ -1,40 +1,120 @@
-{% load static wagtailuserbar %}
+{% load static wagtailuserbar wagtailcore_tags wagtailimages_tags %}
 
-<!DOCTYPE html>
-<html class="no-js" lang="en">
-    <head>
-        <meta charset="utf-8" />
-        <title>
-            {% block title %}
-                {% if self.seo_title %}{{ self.seo_title }}{% else %}{{ self.title }}{% endif %}
-            {% endblock %}
-            {% block title_suffix %}
-                {% with self.get_site.site_name as site_name %}
-                    {% if site_name %}- {{ site_name }}{% endif %}
-                {% endwith %}
-            {% endblock %}
-        </title>
-        <meta name="description" content="" />
-        <meta name="viewport" content="width=device-width, initial-scale=1" />
+<!DOCTYPE HTML>
+<html lang="en">
 
-        {# Global stylesheets #}
-        <link rel="stylesheet" type="text/css" href="{% static 'css/thepurpledot.css' %}">
+<head>
+  <title>
+    {% block title %}
+      {% if self.seo_title %}{{ self.seo_title }}{% else %}{{ self.title }}{% endif %}
+    {% endblock %}
+    {% block title_suffix %}
+      {% with self.get_site.site_name as site_name %}
+        {% if site_name %}- {{ site_name }}{% endif %}
+      {% endwith %}
+    {% endblock %}
+  </title>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
 
-        {% block extra_css %}
-            {# Override this in templates to add extra stylesheets #}
-        {% endblock %}
-    </head>
+  {# Global stylesheets #}
+  <link rel="stylesheet" type="text/css" href="{% static 'css/thepurpledot.css' %}">
+  <link rel="stylesheet" type="text/css" href="{% static 'css/main.css' %}"/>
 
-    <body class="{% block body_class %}{% endblock %}">
-        {% wagtailuserbar %}
+  {% block extra_css %}
+    {# Override this in templates to add extra stylesheets #}
+  {% endblock %}
+</head>
 
-        {% block content %}{% endblock %}
+<body class="{% block fiveup_bodyclass %}{% endblock fiveup_bodyclass %} {% block body_class %}{% endblock body_class %}">
+  {% wagtailuserbar %}
 
-        {# Global javascript #}
-        <script type="text/javascript" src="{% static 'js/thepurpledot.js' %}"></script>
+	<!-- Wrapper -->
+	<div id="wrapper">
 
-        {% block extra_js %}
-            {# Override this in templates to add extra javascript #}
-        {% endblock %}
-    </body>
+		<!-- Header -->
+    <header id="header">
+      <h1><a href="#">The Purple Dot</a></h1>
+      <nav class="links">
+        <ul>
+          <li><a href="{% slugurl 'logue' %}">Logue</a></li>
+          <li><a href="#">About</a></li>
+        </ul>
+      </nav>
+      <nav class="main">
+        <ul>
+          <li class="search">
+            <a class="fa-search" href="#search">Search</a>
+            <form id="search" method="get" action="#">
+              <input type="text" name="query" placeholder="Search" />
+            </form>
+          </li>
+          <li class="menu">
+            <a class="fa-bars" href="#menu">Menu</a>
+          </li>
+        </ul>
+      </nav>
+    </header>
+
+		<!-- Menu -->
+    <section id="menu">
+
+      <!-- Search -->
+      <section>
+        <form class="search" method="get" action="#">
+          <input type="text" name="query" placeholder="Search" />
+        </form>
+      </section>
+
+      <!-- Links -->
+      <section>
+        <ul class="links">
+          <li>
+            <a href="#">
+              <h3>Lorem ipsum</h3>
+              <p>Feugiat tempus veroeros dolor</p>
+            </a>
+          </li>
+      </section>
+
+      <!-- Actions -->
+      <section>
+        <ul class="actions stacked">
+          <li><a href="#" class="button large fit">Log In</a></li>
+        </ul>
+      </section>
+
+    </section>
+
+  {% block content %}{% endblock content %}
+
+  <!-- Footer -->
+  <section id="footer">
+    <ul class="icons">
+      <li><a href="#" class="icon brands fa-twitter"><span class="label">Twitter</span></a></li>
+      <li><a href="#" class="icon brands fa-facebook-f"><span class="label">Facebook</span></a></li>
+      <li><a href="#" class="icon brands fa-instagram"><span class="label">Instagram</span></a></li>
+      <li><a href="#" class="icon solid fa-rss"><span class="label">RSS</span></a></li>
+      <li><a href="#" class="icon solid fa-envelope"><span class="label">Email</span></a></li>
+    </ul>
+    <p class="copyright">&copy; Content on this site is licensed under a <a
+    href="https://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution 4.0 International License</a>.
+      <br>Designed and developed by Tobias Reaper with inspiration from <a href="https://html5up.net">HTML5 UP</a>.
+    </p>
+  </section>
+
+  {# Global javascript #}
+  <script type="text/javascript" src="{% static 'js/thepurpledot.js' %}"></script>
+  <script src="{% static 'js/jquery.min.js' %}"></script>
+  <script src="{% static 'js/browser.min.js' %}"></script>
+  <script src="{% static 'js/breakpoints.min.js' %}"></script>
+  <script src="{% static 'js/util.js' %}"></script>
+  <script src="{% static 'js/main.js' %}"></script>
+
+  {% block extra_js %}
+    {# Override this in templates to add extra javascript #}
+  {% endblock %}
+
+	</div>
+</body>
 </html>

@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+{% load wagtailcore_tags %}
+
+{% block content %}
+  {% if request.get.tag|length %}
+    <h4>Pages tagged "{{ request.get.tag }}"</h4>
+  {% endif %}
+
+  {% for loguepage in logue %}
+    <p>
+      <strong><a href="{% pageurl loguepage %}">{{ loguepage.title }}</a></strong><br>
+      <small>Revised: {{ loguepage.latest_revision_created_at }}</small><br>
+      {% if loguepage.author %}
+        <p>By {{ loguepage.author.profile }}</p>
+      {% endif %}
+    </p>
+
+  {% empty %}
+    <p>
+      No pages found with that tag.
+    </p>
+  {% endfor %}
+{% endblock content %}

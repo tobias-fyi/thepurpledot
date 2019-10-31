@@ -1,6 +1,6 @@
 # ====== Project-Specific ====== #
 db_data/
-
+media/
 
 # Misc
 node_modules/
