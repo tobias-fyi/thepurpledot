@@ -81,4 +81,15 @@
 				color: _palette(border) !important;
 			}
 		}
+
+		&.active,
+		&:active {
+			box-shadow: inset 0 0 0 1px _palette(primary1);
+			color: _palette(primary1) !important;
+			background-color: transparentize(_palette(primary1), 0.80);
+
+			&:before {
+				color: _palette(primary1) !important;
+			}
+		}
 	}

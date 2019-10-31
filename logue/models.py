@@ -1,5 +1,6 @@
 from django import forms
 from django.db import models
+from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
 
 from modelcluster.fields import ParentalKey, ParentalManyToManyField
 from modelcluster.contrib.taggit import ClusterTaggableManager
@@ -61,9 +62,27 @@ class LogueIndexPage(Page):
     intro = RichTextField(blank=True)
 
     def get_context(self, request):
+        """Adding custom content and/or config to the context."""
         # Include only published posts, ordered in reverse chron
         context = super().get_context(request)
-        logue = self.get_children().live().order_by("first_published_at")
+        # Get all Logue posts
+        all_posts = self.get_children().live().public().order_by("-first_published_at")
+
+        # Paginate all Logue posts into 4 per page
+        paginator = Paginator(all_posts, 4)
+
+        # Try to get the ?page=x value
+        page = request.GET.get("page")
+        try:
+            # If the page exists and ?page=x is an integer
+            logue = paginator.page(page)
+        except PageNotAnInteger:
+            # If ?page=x is not an integer, return the first page
+            logue = paginator.page(1)
+        except EmptyPage:
+            # If ?page=x is out of range, return the last page
+            logue = paginator.page(paginator.num_pages)
+
         context["logue"] = logue
         return context
 

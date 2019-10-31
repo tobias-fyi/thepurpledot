@@ -72,8 +72,41 @@
 
 			<!-- Pagination -->
 				<ul class="actions pagination">
-					<li><a href="" class="disabled button large previous">Previous Page</a></li>
-					<li><a href="#" class="button large next">Next Page</a></li>
+					{% if logue.paginator.num_pages > 1 %}
+						{% if logue.has_previous %}
+							<li>
+								<a href="?page={{ logue.previous_page_number }}" class="button large previous">
+									<span>&laquo;</span>
+								</a>
+							</li>
+						{% else %}
+							<li>
+								<a href="" class="disabled button large previous">
+									<span>&laquo;</span>
+								</a>
+							</li>
+						{% endif %}
+
+						{% for page_num in logue.paginator.page_range %}
+							<li>
+							<a href="?page={{ page_num }}" class="button large {% if page_num == logue.number %} active {% endif %}">{{ page_num }}</a>
+							</li>
+						{% endfor %}
+
+						{% if logue.has_next %}
+							<li>
+								<a href="?page={{ logue.next_page_number }}" class="button large next">
+									<span>&raquo;</span>
+								</a>
+							</li>
+						{% else %}
+							<li>
+								<a href="" class="disabled button large next">
+									<span>&raquo;</span>
+								</a>
+							</li>
+						{% endif %}
+					{% endif %}
 				</ul>
 
 		</div>
