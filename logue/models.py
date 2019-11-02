@@ -60,6 +60,24 @@ class LogueIndexPage(Page):
     """Index of all individual Logue pages."""
 
     intro = RichTextField(blank=True)
+    header_image = models.ForeignKey(
+        "wagtailimages.Image",
+        null=True,
+        blank=True,
+        on_delete=models.SET_NULL,
+        related_name="+",
+    )
+    content = StreamField(
+        [
+            ("richtext_section", blocks.RichTextBlock()),
+            ("image", ImageChooserBlock()),
+            ("embed", EmbedBlock()),
+            ("html", blocks.RawHTMLBlock()),
+            ("related_content", blocks.PageChooserBlock()),
+            ("cards", CardBlock()),
+        ],
+        null=True,
+    )
 
     def get_context(self, request):
         """Adding custom content and/or config to the context."""
@@ -86,7 +104,11 @@ class LogueIndexPage(Page):
         context["logue"] = logue
         return context
 
-    content_panels = Page.content_panels + [FieldPanel("intro", classname="full")]
+    content_panels = Page.content_panels + [
+        FieldPanel("intro", classname="full"),
+        ImageChooserPanel("header_image"),
+        StreamFieldPanel("content"),
+    ]
 
 
 class LoguePageTag(TaggedItemBase):

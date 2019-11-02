@@ -1,5 +1,5 @@
 {% extends "base.html" %}
-{% load static wagtailcore_tags %}
+{% load static wagtailcore_tags wagtailimages_tags %}
 
 {% block fiveup_bodyclass %}is-preload{% endblock fiveup_bodyclass %}
 
@@ -11,7 +11,8 @@
 
 			<!-- Intro -->
 			<section id="intro">
-				<a href="#" class="logo"><img src="images/logo.jpg" alt="" /></a>
+				{% image page.banner_image fill-400x400 as img %}
+				<a href="#" class="logo"><img src="{{ img.url }}" alt="{{ img.alt }}" /></a>
 				<header>
 					<h2>{{ page.banner_title }}</h2>
 					<p>{{ page.body|richtext }}</a></p>

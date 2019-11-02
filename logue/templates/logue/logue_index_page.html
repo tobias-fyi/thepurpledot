@@ -89,7 +89,9 @@
 
 					{% for page_num in logue.paginator.page_range %}
 						<li>
-						<a href="?page={{ page_num }}" class="button large {% if page_num == logue.number %} active {% endif %}">{{ page_num }}</a>
+						<a href="?page={{ page_num }}" class="button large {% if page_num == logue.number %} active {% endif %}">
+							{{ page_num }}
+						</a>
 						</li>
 					{% endfor %}
 
@@ -116,15 +118,23 @@
 
 			<!-- Intro -->
 			<section id="intro">
-				<a href="#" class="logo"><img src="images/logo.jpg" alt="" /></a>
+				{% image page.header_image fill-400x400 as img %}
+				<a href="#" class="logo"><img src="{{ img.url }}" alt="{{ img.alt }}" /></a>
 				<header>
 					<h2>{{ page.title }}</h2>
 					<p>{{ page.intro|richtext }}</a></p>
 				</header>
 			</section>
 
+			<!-- Mini Posts (Cards) -->
+			{% for block in page.content %}
+				{% if block.block_type == "cards" %}
+					{% include_block block %}
+				{% endif %}
+			{% endfor %}
+
 			<!-- Mini Posts -->
-			<section>
+			{% comment %} <section>
 				<div class="mini-posts">
 					{% for post in page.get_children %}
 						{% with post=post.specific %}
@@ -153,7 +163,7 @@
 						{% endwith %}
 					{% endfor %}
 				</div>
-			</section>
+			</section> {% endcomment %}
 
 			<!-- Post Links List -->
 			<section>
@@ -171,15 +181,17 @@
 							</li>
 						{% endwith %}
 					{% endfor %}
+				</ul>
+			</section>
 
-			<!-- About -->
+			{% comment %} <!-- About -->
 			<section class="blurb">
 				<h2>About</h2>
 				<p>The Purple Dot is a group of data-wranglin', storytellin' data scientists and developers.</p>
 				<ul class="actions">
-					<li><a href="#" class="button">Learn More</a></li>
+					<li><a href="#" class="button">The Team</a></li>
 				</ul>
-			</section>
+			</section> {% endcomment %}
 
 		</section>
 
