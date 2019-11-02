@@ -23,7 +23,7 @@ from wagtail.images.blocks import ImageChooserBlock
 from wagtail.embeds.blocks import EmbedBlock
 from wagtail.search import index
 
-from utils.blocks import CodeBlock
+from utils.blocks import CodeBlock, CardBlock
 
 
 @register_snippet
@@ -149,6 +149,7 @@ class LoguePage(Page):
             ("embed", EmbedBlock()),
             ("html", blocks.RawHTMLBlock()),
             ("related_content", blocks.PageChooserBlock()),
+            ("cards", CardBlock()),
         ],
         null=True,
     )

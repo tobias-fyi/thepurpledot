@@ -1,0 +1,32 @@
+{% load static wagtailimages_tags %}
+
+<!-- Mini Posts -->
+<section>
+  <h1>{{ self.title }}</h1>
+
+  <div class="mini-posts">
+    {% for card in self.cards %}
+      <!-- Mini Post -->
+      <article class="mini-post">
+        <header>
+          <h3><a href="#">{{ card.title }}</a></h3>
+          <p class="published">{{ card.text }}</p>
+          {% if card.button_page %}
+            <a href="{{ card.button_page.url }}" class="button large">
+              See More
+            </a>
+          {% elif card.button_url %}
+            <a href="{{ card.button_url }}" class="button large">
+              See More
+            </a>
+          {% endif %}
+        </header>
+        {% image card.image max-400x400 as img %}
+        <a href="#" class="image thumbnail">
+          <img src="{{ img.url }}" alt="{{ img.alt }}">
+        </a>
+      </article>
+    {% endfor %}
+  </div>
+</section>
+

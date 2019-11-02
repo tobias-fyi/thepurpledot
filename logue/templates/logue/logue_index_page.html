@@ -71,43 +71,43 @@
 			{% endfor %}
 
 			<!-- Pagination -->
-				<ul class="actions pagination">
-					{% if logue.paginator.num_pages > 1 %}
-						{% if logue.has_previous %}
-							<li>
-								<a href="?page={{ logue.previous_page_number }}" class="button large previous">
-									<span>&laquo;</span>
-								</a>
-							</li>
-						{% else %}
-							<li>
-								<a href="" class="disabled button large previous">
-									<span>&laquo;</span>
-								</a>
-							</li>
-						{% endif %}
-
-						{% for page_num in logue.paginator.page_range %}
-							<li>
-							<a href="?page={{ page_num }}" class="button large {% if page_num == logue.number %} active {% endif %}">{{ page_num }}</a>
-							</li>
-						{% endfor %}
-
-						{% if logue.has_next %}
-							<li>
-								<a href="?page={{ logue.next_page_number }}" class="button large next">
-									<span>&raquo;</span>
-								</a>
-							</li>
-						{% else %}
-							<li>
-								<a href="" class="disabled button large next">
-									<span>&raquo;</span>
-								</a>
-							</li>
-						{% endif %}
+			<ul class="actions pagination">
+				{% if logue.paginator.num_pages > 1 %}
+					{% if logue.has_previous %}
+						<li>
+							<a href="?page={{ logue.previous_page_number }}" class="button large previous">
+								<span>&laquo;</span>
+							</a>
+						</li>
+					{% else %}
+						<li>
+							<a href="" class="disabled button large previous">
+								<span>&laquo;</span>
+							</a>
+						</li>
 					{% endif %}
-				</ul>
+
+					{% for page_num in logue.paginator.page_range %}
+						<li>
+						<a href="?page={{ page_num }}" class="button large {% if page_num == logue.number %} active {% endif %}">{{ page_num }}</a>
+						</li>
+					{% endfor %}
+
+					{% if logue.has_next %}
+						<li>
+							<a href="?page={{ logue.next_page_number }}" class="button large next">
+								<span>&raquo;</span>
+							</a>
+						</li>
+					{% else %}
+						<li>
+							<a href="" class="disabled button large next">
+								<span>&raquo;</span>
+							</a>
+						</li>
+					{% endif %}
+				{% endif %}
+			</ul>
 
 		</div>
 
@@ -115,72 +115,71 @@
 		<section id="sidebar">
 
 			<!-- Intro -->
-				<section id="intro">
-					<a href="#" class="logo"><img src="images/logo.jpg" alt="" /></a>
-					<header>
-						<h2>{{ page.title }}</h2>
-						<p>{{ page.intro|richtext }}</a></p>
-					</header>
-				</section>
+			<section id="intro">
+				<a href="#" class="logo"><img src="images/logo.jpg" alt="" /></a>
+				<header>
+					<h2>{{ page.title }}</h2>
+					<p>{{ page.intro|richtext }}</a></p>
+				</header>
+			</section>
 
 			<!-- Mini Posts -->
-				<section>
-					<div class="mini-posts">
-						{% for post in page.get_children %}
-							{% with post=post.specific %}
+			<section>
+				<div class="mini-posts">
+					{% for post in page.get_children %}
+						{% with post=post.specific %}
 							<!-- Mini Post -->
-								<article class="mini-post">
+							<article class="mini-post">
+								<header>
+									<h3><a href="{% pageurl post %}">{{ post.title }}</a></h3>
+									<time class="published" datetime="{{ post.date|date:'Y-m-d' }}">{{ post.date }}</time>
+									{% with authors=post.logue_authors.all %}
+										{% if authors %}
+											<ul>
+												{% for iter in authors %}
+													{% image iter.author.image fill-100x100 as img %}
+													<li style="display: inline">
+														<a href="{{ iter.author.website }}" class="author">
+															<img src="{{ img.url }}" alt="{{ iter.author.name }}" />
+														</a>
+													</li>
+												{% endfor %}
+											</ul>
+										{% endif %}
+									{% endwith %}
+								</header>
+								<a href="{% pageurl post %}" class="image thumbnail">{% image post.header_image max-400x400 %}</a>
+							</article>
+						{% endwith %}
+					{% endfor %}
+				</div>
+			</section>
+
+			<!-- Post Links List -->
+			<section>
+				<ul class="posts">
+					{% for post in page.get_children %}
+						{% with post=post.specific %}
+							<li>
+								<article>
 									<header>
 										<h3><a href="{% pageurl post %}">{{ post.title }}</a></h3>
 										<time class="published" datetime="{{ post.date|date:'Y-m-d' }}">{{ post.date }}</time>
-										{% with authors=post.logue_authors.all %}
-											{% if authors %}
-												<ul>
-													{% for iter in authors %}
-														{% image iter.author.image fill-100x100 as img %}
-														<li style="display: inline">
-															<a href="{{ iter.author.website }}" class="author">
-																<img src="{{ img.url }}" alt="{{ iter.author.name }}" />
-															</a>
-														</li>
-													{% endfor %}
-												</ul>
-											{% endif %}
-										{% endwith %}
 									</header>
 									<a href="{% pageurl post %}" class="image thumbnail">{% image post.header_image max-400x400 %}</a>
 								</article>
-							{% endwith %}
-						{% endfor %}
-
-					</div>
-				</section>
-
-			<!-- Post Links List -->
-				<section>
-					<ul class="posts">
-						{% for post in page.get_children %}
-							{% with post=post.specific %}
-								<li>
-									<article>
-										<header>
-											<h3><a href="{% pageurl post %}">{{ post.title }}</a></h3>
-											<time class="published" datetime="{{ post.date|date:'Y-m-d' }}">{{ post.date }}</time>
-										</header>
-										<a href="{% pageurl post %}" class="image thumbnail">{% image post.header_image max-400x400 %}</a>
-									</article>
-								</li>
-							{% endwith %}
-						{% endfor %}
+							</li>
+						{% endwith %}
+					{% endfor %}
 
 			<!-- About -->
-				<section class="blurb">
-					<h2>About</h2>
-					<p>The Purple Dot is a group of data-wranglin', storytellin' data scientists and developers.</p>
-					<ul class="actions">
-						<li><a href="#" class="button">Learn More</a></li>
-					</ul>
-				</section>
+			<section class="blurb">
+				<h2>About</h2>
+				<p>The Purple Dot is a group of data-wranglin', storytellin' data scientists and developers.</p>
+				<ul class="actions">
+					<li><a href="#" class="button">Learn More</a></li>
+				</ul>
+			</section>
 
 		</section>
 
