@@ -9,7 +9,7 @@ pytest = "*"
 black = "*"
 
 [packages]
-wagtail = "==2.7rc2"
+wagtail = "==2.11.8"
 django-debug-toolbar = "*"
 Wand = "*"
 Django = "<2.3,>=2.2"
